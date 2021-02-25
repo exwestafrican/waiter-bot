@@ -22,4 +22,5 @@ from messaging import webhook
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("webhooks/message_received/", webhook.message_received),
+    path("webhooks/send_message/", webhook.send_message),
 ]
