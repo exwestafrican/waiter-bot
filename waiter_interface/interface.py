@@ -33,7 +33,7 @@ class MobileWaiter:
             # find the item
             pass
 
-    def link_item_to_resturant(
+    def link_item_to_restaurant(
         self,
         item_id,
         resturant_id,
