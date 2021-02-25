@@ -82,7 +82,7 @@ class MobileWaiter:
 
         return item_id
 
-    def all_resturants_in_school(self, school_id, **kwargs):
+    def all_restaurants_in_school(self, school_id, **kwargs):
         data = {"schoolId": school_id}
         response = requests.get(self.base_url + "/v1/restaurants?", params=data)
         if response.ok:
