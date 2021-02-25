@@ -138,10 +138,10 @@ STATIC_URL = "/static/"
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
-TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
-ACCOUNT_SID = env("ACCOUNT_SID")
-ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
+# WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
+# TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
+# ACCOUNT_SID = env("ACCOUNT_SID")
+# ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
 
 
 django_heroku.settings(locals())
