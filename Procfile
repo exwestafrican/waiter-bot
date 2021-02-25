@@ -1,0 +1,1 @@
+web: gunicorn waiter_bot.wsgi 
