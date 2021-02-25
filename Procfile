@@ -1,1 +1,1 @@
-web: gunicorn waiter_bot.wsgi 
+web: gunicorn waiter_bot.wsgi --log-file -
