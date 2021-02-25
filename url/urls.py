@@ -18,9 +18,9 @@ from django.urls import path
 from django.urls import path
 from messaging import webhook
 
-
+base_url = "staging-api/v1/"
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("webhooks/message_received/", webhook.message_received),
-    path("webhooks/send_message/", webhook.send_message),
+    path(base_url + "webhooks/message_received/", webhook.message_received),
+    path(base_url + "webhooks/send_message/", webhook.send_message),
 ]
