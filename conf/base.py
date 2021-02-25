@@ -67,7 +67,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "waiter_bot.urls"
+ROOT_URLCONF = "url.urls"
 AUTH_USER_MODEL = "users.User"
 
 TEMPLATES = [
