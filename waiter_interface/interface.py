@@ -5,7 +5,7 @@ class MobileWaiter:
     def __init__(self, *args, **kwargs):
         self.base_url = BASE_URL
 
-    def create_resturant(self, restaurant_name, school_id, owner_id, contact_person):
+    def create_restaurant(self, restaurant_name, school_id, owner_id, contact_person):
         payload = {
             "restaurantName": restaurant_name,
             "schoolId": school_id,
