@@ -16,7 +16,11 @@ import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env()
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+env.read_env(".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -91,12 +95,6 @@ WSGI_APPLICATION = "waiter_bot.wsgi.application"
 
 DATABASES = {"default": env.db("DATABASE_URL", default="postgres:///waiter")}
 
-WAITER_INTERFACE_URL = env(
-    WAITER_INTERFACE_URL, "https://mobile-waiter-staging.herokuapp.com"
-)
-TWILIO_WHATSAPP_NUMBER = env(TWILIO_WHATSAPP_NUMBER)
-ACCOUNT_SID = env(ACCOUNT_SID)
-ACCOUNT_TOKEN = env(ACCOUNT_TOKEN)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -135,3 +133,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
+
+WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
+TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
+ACCOUNT_SID = env("ACCOUNT_SID")
+ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
