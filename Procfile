@@ -1,1 +1,1 @@
-web: gunicorn waiter_bot.wsgi --log-file -
+web: gunicorn waiter_bot.wsgi --log-file - --log-level debug
