@@ -44,6 +44,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = ["django_extensions",'rest_framework',]
 LOCAL_APPS=["users"]
 
+
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 
@@ -58,6 +59,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'waiter_bot.urls'
+AUTH_USER_MODEL = "users.User"
 
 TEMPLATES = [
     {
