@@ -9,7 +9,7 @@ class User(AbstractUser):
     phone = models.CharField(
         max_length=15,
         null=True,
-        validators=[validate_mobile_number]
+        validators=[validate_mobile_number],
         help_text="user phone number e.g +23409050039030",
         unique=True,
     )
