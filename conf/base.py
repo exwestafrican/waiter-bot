@@ -94,6 +94,7 @@ DATABASES = {"default": env.db("DATABASE_URL", default="postgres:///waiter")}
 WAITER_INTERFACE_URL = env(
     WAITER_INTERFACE_URL, "https://mobile-waiter-staging.herokuapp.com"
 )
+TWILIO_WHATSAPP_NUMBER = "+14155238886"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

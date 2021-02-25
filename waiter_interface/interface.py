@@ -72,14 +72,12 @@ class MobileWaiter:
 
     def get_or_create_food_item(self, name, category):
         food_id = self.get_item(name=name, category=category)
-
         item_id = (
             food_id
             if food_id != None
             else self.create_food_item(name=name, category=category)
         )
         print("food_id", item_id)
-
         return item_id
 
     def all_restaurants_in_school(self, school_id, **kwargs):
