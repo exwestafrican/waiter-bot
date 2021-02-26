@@ -5,20 +5,21 @@ from rest_framework import status
 from messaging.twilio_whatsapp import send_whatsapp_message
 from twilio.twiml.messaging_response import MessagingResponse
 
+from django.http import HttpResponse
+
 
 @api_view(["POST"])
 def message_received(request):
     if request.method == "POST":
-        print("received message", request.data)
+        print("received message", request.data.get("Body"))
         # send_whatsapp_message(
         #     "+2348169084566",
         #     "+14155238886",
         #     "got the message" + str(request.data.get("ProfileName")),
         # )
         response = MessagingResponse()
-        msg = response.message("Send us an image!" + request.get("Body"))
-        print(response)
-        return Response(str(response))
+        msg = response.message("Send us an image!")
+        return HttpResponse(str(response))
 
 
 @api_view(["POST"])
