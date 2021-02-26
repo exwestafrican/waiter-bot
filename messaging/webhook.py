@@ -9,7 +9,9 @@ from messaging.twilio_whatsapp import send_whatsapp_message
 def message_received(request):
     if request.method == "POST":
         print("received message", request.data)
-        send_whatsapp_message("+2348169084566", "+14155238886", "got the message")
+        send_whatsapp_message(
+            "+2348169084566", "+14155238886", "got the message" + str(request.data)
+        )
         return Response(
             {"success": True, "message": "success", "data": "none"},
             status=status.HTTP_200_OK,
