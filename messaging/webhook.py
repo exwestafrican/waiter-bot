@@ -16,8 +16,9 @@ def message_received(request):
         #     "got the message" + str(request.data.get("ProfileName")),
         # )
         response = MessagingResponse()
-        msg = response.message("Send us an image!")
-        return str(response)
+        msg = response.message("Send us an image!" + request.get("Body"))
+        print(response)
+        return Response(str(response))
 
 
 @api_view(["POST"])
