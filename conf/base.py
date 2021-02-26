@@ -26,16 +26,16 @@ env.read_env(".env")
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "WUWiM92QAuzn9AGxWMJ0EEs7PecSZDB3FYQrhEzD32sRQ6lBL7w6t4iRSRCZgCZe"
-# env(
-#     "DJANGO_SECRET_KEY",
-#     default="WUWiM92QAuzn9AGxWMJ0EEs7PecSZDB3FYQrhEzD32sRQ6lBL7w6t4iRSRCZgCZe",
-# )
+SECRET_KEY = env(
+    "DJANGO_SECRET_KEY",
+    default="WUWiM92QAuzn9AGxWMJ0EEs7PecSZDB3FYQrhEzD32sRQ6lBL7w6t4iRSRCZgCZe",
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG", False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -140,10 +140,10 @@ STATIC_URL = "/static/"
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-# WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
-# TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
-# ACCOUNT_SID = env("ACCOUNT_SID")
-# ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
+WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
+TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
+ACCOUNT_SID = env("ACCOUNT_SID")
+ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
 
 
 django_heroku.settings(locals())

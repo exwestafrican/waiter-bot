@@ -9,6 +9,7 @@ __pycache__/
 #mine
 config/
 
+db.sqlite3
 
 # C extensions
 *.so
