@@ -18,7 +18,7 @@ def message_received(request):
         #     "got the message" + str(request.data.get("ProfileName")),
         # )
         response = MessagingResponse()
-        msg = response.message("Send us an image!")
+        msg = response.message("Send us an image!" + request.data.get("Body"))
         return HttpResponse(str(response))
 
 
