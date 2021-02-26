@@ -1,1 +1,2 @@
-web: gunicorn waiter_bot.wsgi --log-file - --log-level debug
+release: python manage.py migrate
+web: gunicorn waiter_bot.wsgi --preload --log-file -
