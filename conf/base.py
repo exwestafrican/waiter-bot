@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import environ
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,10 +31,11 @@ SECRET_KEY = env(
     default="WUWiM92QAuzn9AGxWMJ0EEs7PecSZDB3FYQrhEzD32sRQ6lBL7w6t4iRSRCZgCZe",
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env("DEBUG", False)
+
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -59,6 +61,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -132,9 +135,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
 TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
 ACCOUNT_SID = env("ACCOUNT_SID")
 ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
+
+
+django_heroku.settings(locals())
