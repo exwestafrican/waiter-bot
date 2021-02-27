@@ -1,13 +1,18 @@
 import re
+from commands.selectors import get_command_list
 
 
-def find_command_in_message(msg):
+def find_command_in_message(msg, sender):
     regex = r"^#\s?\w+"
     match = re.match(regex, msg)
     if not match:
+        commands = ", ".join(get_command_list()[10])
+        example = get_example(commands[0])
         return {
             "found": False,
-            "message": "No command found in message",
+            "message": "Hey, {} No command found in message we couldn't find any command in your message, here are a list of commands: {} and an example".format(
+                sender, commands, example
+            ),
             "data": "",
         }
     else:

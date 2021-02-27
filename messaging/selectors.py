@@ -1,6 +1,6 @@
 from users.selectors import get_user
 from commands.selectors import is_valid_command, get_command_list
-from commands.utils import find_command_in_message
+from messaging.utils import find_command_in_message
 
 
 def get_name_or_number(number):
@@ -17,7 +17,7 @@ def valid_command_in_message(msg):
     if command.get("found"):
         command = is_valid_command(command)
         return {"success": True, "message": "", "data": {"command": command}}
-        
+
     elif command.get("found") is False:
         return {
             "success": False,

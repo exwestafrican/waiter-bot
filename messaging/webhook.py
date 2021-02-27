@@ -11,8 +11,8 @@ from twilio.twiml.messaging_response import MessagingResponse
 from commands.selectors import command_list
 from commands.selectors import get_command_list, get_example
 from messaging.twilio_whatsapp import send_whatsapp_message
-from messaging.utils import clean_data, find_command, resp_from_twillo_whatsapp
-from messaging.selectors import get_name_or_number
+from messaging.utils import clean_data, resp_from_twillo_whatsapp
+from messaging.selectors import get_name_or_number, valid_command_in_message
 
 
 @api_view(["POST"])
@@ -23,8 +23,13 @@ def message_received(request):
         sender = get_name_or_number(resp["sender"])
         message = clean_data(msg)
         response = MessagingResponse()
-        # valid_command_in_message
-        
+        procees_message = valid_command_in_message(message)
+        if procees_message.get("success"):
+            response.message(
+                "hey, {} your order with id 2234 has been created".format(sender)
+            )
+        else:
+            response.message(procees_message.get("message"))
 
         return HttpResponse(str(response))
 
