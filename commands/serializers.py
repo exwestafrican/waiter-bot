@@ -13,8 +13,9 @@ class CommandModelSerializer(serializers.ModelSerializer):
         ]
 
     def validate_name(self, name):
-        regex = r"^\D\w*[^-+]\S$"
-        match = re.match(regex, phone_number)
+        # nowhitespace or special character word with(_ as space) nowhitespace or special
+        regex = r"^[^#-+@*0_9\s][a-zA-Z_]*[^-+@*#\s]$"
+        match = re.match(regex, name)
         if match:
             return name
         raise serializers.ValidationError(
