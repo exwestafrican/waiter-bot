@@ -34,7 +34,6 @@ class UserDetailModelSerializer(serializers.ModelSerializer):
             "is_active",
             "phone_number",
             "email",
-            "username",
             "groups",
         ]
 
