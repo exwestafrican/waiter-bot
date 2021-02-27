@@ -3,8 +3,9 @@ from commands.selectors import get_command_list, get_example, get_a_random_comma
 
 
 def find_command_in_message(msg, sender):
-    regex = r"^#\s?\w+"
-    match = re.match(regex, msg)
+    regex = r"#\s?\w+"
+    match = re.findall(regex, msg)
+    print(match)
     if not match:
         commands = ", ".join(get_command_list()[:5])
         command = get_a_random_command()
@@ -18,13 +19,12 @@ def find_command_in_message(msg, sender):
             "data": "",
         }
     else:
-        command = match.group()
+        command = match[0].split("#")[1]
         return {"found": True, "message": "valid command found", "data": command}
 
 
 def clean_data(data):
-    return data.strip()
-
+    return data.strip().lower()
 
 
 def handle_command(command):

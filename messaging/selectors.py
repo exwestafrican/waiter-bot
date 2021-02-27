@@ -19,8 +19,12 @@ def get_name_or_number(number):
 def valid_command_in_message(msg, sender):
     command = find_command_in_message(msg, sender)
     if command.get("found"):
-        if is_valid_command(command):
-            return {"success": True, "message": "", "data": {"command": command}}
+        if is_valid_command(command.get("data")):
+            return {
+                "success": True,
+                "message": "",
+                "data": {"command": command.get("data")},
+            }
         else:
             commands = ", ".join(get_command_list()[:5])
             random_command = get_a_random_command()
