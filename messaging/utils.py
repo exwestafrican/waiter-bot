@@ -1,20 +1,18 @@
 import re
 
 
-def find_command(msg):
+def find_command_in_message(msg):
     regex = r"^#\s?\w+"
     match = re.match(regex, msg)
     if not match:
-        return "Hey, you didn't give a command please not all commands start with  a '#' e.g #order "
+        return {
+            "found": False,
+            "message": "No command found in message",
+            "data": "",
+        }
     else:
         command = match.group()
-        valid_command = validate_command(command)
-        if valid_command:
-            pass
-        else:
-            return "Opps!! {} is not a valid command please #valid_commands to get a list of valide commands".format(
-                command
-            )
+        return {"found": True, "message": "valid command found", "data": command}
 
 
 def clean_data(data):

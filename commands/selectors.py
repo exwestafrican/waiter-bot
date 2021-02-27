@@ -9,3 +9,7 @@ def get_command_list():
 
 def get_example(command):
     return command.example_command_format
+
+
+def is_valid_command(command):
+    return Command.objects.filter(name=command).exists()

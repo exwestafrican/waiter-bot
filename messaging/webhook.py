@@ -23,29 +23,8 @@ def message_received(request):
         sender = get_name_or_number(resp["sender"])
         message = clean_data(msg)
         response = MessagingResponse()
-
-        command = find_command(msg)
-        if command:
-            pass
-            # handle_command()
-            response.message(
-                "hey, {} we're working on this, give us a minute".format(sender)
-            )
-        else:
-            commands = ", ".join(get_command_list())
-            example = get_example(commands[0])
-            response.message(
-                "hey, {} we can't figure out what you want, but here are a list of commands: {}, to use one, simply do {}".format(
-                    sender, commands, example
-                )
-            )
-            print(response)
-        # "#order rice-50,plantain-70,meat-50"
-        # send_whatsapp_message(
-        #     "+2348169084566",
-        #     "+14155238886",
-        #     "got the message" + str(request.data.get("ProfileName")),
-        # )
+        # valid_command_in_message
+        
 
         return HttpResponse(str(response))
 
