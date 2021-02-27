@@ -50,9 +50,19 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
 ]
+DJANGO_EXTENSIONS = ["django_extensions"]
+
+REST_FRAME_WORK = [
+    "rest_framework",
+    "rest_auth",
+    "rest_framework.authtoken",
+    "rest_auth.registration",
+]
 
 ALL_AUTH = ["allauth", "allauth.account", "allauth.socialaccount"]
-THIRD_PARTY_APPS = ["django_extensions", "rest_framework", "rest_auth"] + ALL_AUTH
+
+THIRD_PARTY_APPS = DJANGO_EXTENSIONS + ALL_AUTH + REST_FRAME_WORK
+
 LOCAL_APPS = ["users"]
 
 
@@ -154,6 +164,28 @@ REST_FRAMEWORK = {
     )
 }
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "users.serializers.CustomRegisterSerializer",
+}
+
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "users.serializers.UserDetailModelSerializer",
+}
+
+# ALL_AUTH_SETTING
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+
+# JWT_SETTING
+REST_USE_JWT = True
+JWT_AUTH = {
+    "JWT_AUTH_HEADER_PREFIX": "JWT",
+    "JWT_EXPIRATION_DELTA": datetime.timedelta(days=360),
+    "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=300),
+    "JWT_ALLOW_REFRESH": True,
+}
 
 # SIMPLE_JWT = {
 #     "ACCESS_TOKEN_LIFETIME": timedelta(days=360),
