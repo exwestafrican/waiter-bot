@@ -1,9 +1,14 @@
 from commands.models import Command
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 import re
 
 
 class CommandModelSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        max_length=15, validators=[UniqueValidator(queryset=Command.objects.all())]
+    )
+
     class Meta:
         model = Command
         fields = [
