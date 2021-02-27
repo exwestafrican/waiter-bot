@@ -11,6 +11,11 @@ class Command(models.Model):
     )
     description = models.TextField(help_text="what does this command do")
     example = models.TextField(help_text="example usage of this command")
+    short_description = models.CharField(
+        max_length=500,
+        help_text="give a brief description of what this does",
+        default="",
+    )
 
     def __str__(self):
         return "#{self.name}"
