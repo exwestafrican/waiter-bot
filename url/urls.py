@@ -14,14 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.urls import path
+
+from django.urls import path, include
 from messaging import webhook
+from rest_framework import routers
+from users.views import *
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 base_url = "api/v1/"
+router = routers.DefaultRouter()
+router.register("users", UserModelViewSet, basename="users")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(base_url + "webhooks/message_received/", webhook.message_received),
     path(base_url + "webhooks/send_message/", webhook.send_message),
+    path(base_url, include(router.urls)),
+    path("api/v1/rest-auth/registration/", include("rest_auth.registration.urls")),
+    path("api/v1/rest-auth/", include("rest_auth.urls")),
+    # path(base_url + "token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    # path(base_url + "token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
