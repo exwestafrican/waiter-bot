@@ -37,4 +37,8 @@ def handle_command(command):
     pass
 
 
-
+def resp_from_twillo_whatsapp(data):
+    msg = data.get("Body")
+    whatsapp_sender = data.get("From")
+    sender = whatsapp_sender.split(":")[1]
+    return {"msg": msg, "sender": sender}

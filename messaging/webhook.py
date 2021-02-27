@@ -1,28 +1,28 @@
+from django.http import HttpResponse
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
 
-from messaging.twilio_whatsapp import send_whatsapp_message
 from twilio.twiml.messaging_response import MessagingResponse
 
-from django.http import HttpResponse
 
 from commands.selectors import command_list
-
-from messaging.utils import clean_data, find_command
-
 from commands.selectors import get_command_list, get_example
+from messaging.twilio_whatsapp import send_whatsapp_message
+from messaging.utils import clean_data, find_command, resp_from_twillo_whatsapp
 
 
 @api_view(["POST"])
 def message_received(request):
     if request.method == "POST":
-        msg = request.data.get("Body")
-        whatsapp_sender = request.data.get("From")
-        sender = whatsapp_sender.split(":")[1]
+        resp = resp_from_twillo_whatsapp(request.data)
+        msg = resp["msg"]
+        sender = resp["sender"]
         message = clean_data(msg)
         response = MessagingResponse()
+
         command = find_command(msg)
         if command:
             pass
@@ -31,12 +31,11 @@ def message_received(request):
                 "hey, {} we're working on this, give us a minute".format(sender)
             )
         else:
-            commands = get_command_list()
-            _commands = ", ".join(commands)
+            commands = ", ".join(get_command_list())
             example = get_example(commands[0])
             response.message(
                 "hey, {} we can't figure out what you want, but here are a list of commands: {}, to use one, simply do {}".format(
-                    sender, _commands, example
+                    sender, commands, example
                 )
             )
             print(response)
