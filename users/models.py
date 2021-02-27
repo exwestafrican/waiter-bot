@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-from users.validators import validate_mobile_number
 
 
 class User(AbstractUser):

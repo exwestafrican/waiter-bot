@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_auth.registration.serializers import RegisterSerializer
-from users.validators import validate_mobile_number
+import re
 
 User = get_user_model()
 
@@ -54,11 +54,27 @@ class CustomRegisterSerializer(RegisterSerializer):
         }
 
     def validate_phone_number(self, phone_number):
-        return validate_mobile_number(phone_number)
+        regex = r"^\+234\d{10}$"
+        match = re.match(regex, phone_number)
+        phone_number_exits = User.objects.filter
+        if not match:
+            raise serializers.ValidationError(
+                "{} is not a valid phone number please try something like +234090334..".format(
+                    phone_number
+                )
+            )
+        elif phone_number_exits(phone_number=phone_number).exists():
+            raise serializers.ValidationError(
+                "{} exists please try a different one or contact us to retrieve your account".format(
+                    phone_number
+                )
+            )
+
+        else:
+            return phone_number
 
     def custom_signup(self, request, user):
-        # call waiter interface
         customer_group = Group.objects.get(name="customer")
         customer_group.user_set.add(user)
-        print(request.get("phone_number"))
-        user.phone_number = request.get("phone_number")
+        user.phone_number = self.validated_data.get("phone_number")
+        user.save()
