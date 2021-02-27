@@ -42,9 +42,7 @@ class UserDetailModelSerializer(serializers.ModelSerializer):
 class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=False, write_only=True)
-    # phone_number = serializers.CharField(
-    #     required=True
-    # )
+    phone_number = serializers.CharField(required=True)
 
     def get_cleaned_data(self):
         return {
@@ -55,8 +53,12 @@ class CustomRegisterSerializer(RegisterSerializer):
             "last_name": self.validated_data.get("last_name", ""),
         }
 
+    def validate_phone_number(self, phone_number):
+        return validate_mobile_number(phone_number)
+
     def custom_signup(self, request, user):
         # call waiter interface
-        print("this works")
         customer_group = Group.objects.get(name="customer")
         customer_group.user_set.add(user)
+        print(request.get("phone_number"))
+        user.phone_number = request.get("phone_number")
