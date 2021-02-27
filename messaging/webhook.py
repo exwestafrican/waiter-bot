@@ -23,8 +23,9 @@ def message_received(request):
         sender = get_name_or_number(resp["sender"])
         message = clean_data(msg)
         response = MessagingResponse()
-        procees_message = valid_command_in_message(message)
+        procees_message = valid_command_in_message(message, sender)
         if procees_message.get("success"):
+            # handle command
             response.message(
                 "hey, {} your order with id 2234 has been created".format(sender)
             )
