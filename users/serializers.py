@@ -22,7 +22,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class UserDetailModelSerializer(serializers.ModelSerializer):
-    group = GroupSerializer(many=True)
+    groups = GroupSerializer(many=True)
 
     class Meta:
         model = User
@@ -35,7 +35,7 @@ class UserDetailModelSerializer(serializers.ModelSerializer):
             "phone_number",
             "email",
             "username",
-            "group",
+            "groups",
         ]
 
 
