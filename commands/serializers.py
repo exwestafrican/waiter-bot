@@ -6,7 +6,13 @@ import re
 
 class CommandModelSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
-        max_length=15, validators=[UniqueValidator(queryset=Command.objects.all())]
+        max_length=15,
+        validators=[
+            UniqueValidator(
+                queryset=Command.objects.all(),
+                message="command with the same name exists",
+            )
+        ],
     )
 
     class Meta:
