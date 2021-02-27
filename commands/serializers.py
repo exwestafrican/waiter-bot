@@ -17,11 +17,7 @@ class CommandModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Command
-        fields = [
-            "name",
-            "description",
-            "example",
-        ]
+        fields = ["name", "description", "example", "example_command_format"]
 
     def validate_name(self, name):
         # nowhitespace or special character word with(_ as space) nowhitespace or special

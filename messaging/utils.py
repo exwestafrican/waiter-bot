@@ -1,7 +1,7 @@
 import re
 
 
-def find_command(mgs):
+def find_command(msg):
     regex = r"^#\s?\w+"
     match = re.match(regex, msg)
     if not match:
@@ -35,3 +35,6 @@ def validate_command(command):
 def handle_command(command):
     # call a service
     pass
+
+
+
