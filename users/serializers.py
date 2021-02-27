@@ -42,13 +42,13 @@ class UserDetailModelSerializer(serializers.ModelSerializer):
 class CustomRegisterSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=False, write_only=True)
-    phone_number = serializers.CharField(
-        required=True, validators=[validate_mobile_number]
-    )
+    # phone_number = serializers.CharField(
+    #     required=True
+    # )
 
     def get_cleaned_data(self):
         return {
-            "username": self.validated_data.get("username", ""),
+            "username": "",
             "password1": self.validated_data.get("password1", ""),
             "email": self.validated_data.get("email", ""),
             "first_name": self.validated_data.get("first_name", ""),
