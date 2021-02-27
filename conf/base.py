@@ -183,7 +183,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 # JWT_SETTING
 REST_USE_JWT = True
 JWT_AUTH = {
-    "JWT_AUTH_HEADER_PREFIX": "JWT",
+    "JWT_AUTH_HEADER_PREFIX": "Bearer",
     "JWT_EXPIRATION_DELTA": datetime.timedelta(days=360),
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=300),
     "JWT_ALLOW_REFRESH": True,

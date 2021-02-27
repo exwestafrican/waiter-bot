@@ -19,12 +19,12 @@ from users.serializers import UserDetailModelSerializer, MyTokenObtainPairSerial
 class UserModelViewSet(viewsets.ModelViewSet):
     model = User
     serializer_class = UserDetailModelSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         if self.request.user.is_staff:
             return User.objects.all()
-        return User.objects.filter(user=self.request.user)
+        return User.objects.filter(email=self.request.user.email)
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
