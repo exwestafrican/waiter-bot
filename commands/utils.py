@@ -1,8 +1,6 @@
 import re
-from utils.helper_func import clean_data
-from products.utils import get_product_price
-
-SPECIAL_CHARACTERS = "[\s\-:;]"
+from utils.helper_func import clean_data, SPECIAL_CHARACTERS
+from products.utils import get_product_price, get_food_item
 
 
 def clean_data_set(*data_set):
@@ -16,12 +14,6 @@ def clean_number(number):
 def remove_word(msg, word):
     _msg = msg.replace(word, "")
     return clean_data(_msg)
-
-
-def get_food_item(msg):
-    regex = r"\w+{}*\d+".format(SPECIAL_CHARACTERS)
-    match = re.findall(regex, msg)
-    return match
 
 
 def find_vendor_code(msg):

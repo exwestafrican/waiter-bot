@@ -1,5 +1,11 @@
 import re
-from utils.helper_func import clean_data
+from utils.helper_func import clean_data, SPECIAL_CHARACTERS
+
+
+def get_food_item(msg):
+    regex = r"\w+{}*\d+".format(SPECIAL_CHARACTERS)
+    match = re.findall(regex, msg)
+    return match
 
 
 def get_product_price(item):
