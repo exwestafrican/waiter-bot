@@ -49,12 +49,8 @@ class Restaurant(TimeStampMixin):
         help_text="who owns this restaurant",
     )
 
-    address = models.OneToOneField(
-        Location,
+    address = models.TextField(
         help_text="where is your restaurant located",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
     )
 
     available_in = models.ManyToManyField(
