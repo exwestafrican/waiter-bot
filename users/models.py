@@ -20,13 +20,26 @@ class Location(TimeStampMixin):
     area = models.CharField(
         max_length=800,
         null=True,
-        help_text="locations are usually generic, like mainland",
+        help_text="locations are usually generic, like mainland or Ota",
     )
-    state = models.CharField(max_length=600)
-    is_school = models.BooleanField(default=True)
+
+    state = models.CharField(
+        max_length=600,
+        help_text="lagos state",
+    )
+
+    popular_name = models.CharField(
+        max_length=800,
+        null=True,
+        help_text="where do people usually attribute this place to",
+    )
 
     def __str__(self):
         return "{},{}".format(self.area, self.state)
+
+    @property
+    def generic_address(self):
+        return "{} ({})".format(self.area, self.popular_name)
 
     @property
     def location_zip(self):
@@ -59,6 +72,7 @@ class Restaurant(TimeStampMixin):
         help_text="where are the places this restruant is located in",
     )
     code = models.CharField(max_length=4, null=True, blank=True, unique=True)
+    in_school = models.BooleanField(default=True)
 
 
 class Profile(TimeStampMixin):
