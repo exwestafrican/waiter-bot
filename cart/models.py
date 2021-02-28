@@ -10,7 +10,7 @@ import uuid
 
 
 class OrderStatus(TimeStampMixin):
-    name = models.CharField()
+    name = models.CharField(max_length=500)
 
 
 class Cart(TimeStampMixin):
@@ -24,8 +24,12 @@ class Cart(TimeStampMixin):
         help_text="user phone number e.g +23409050039030",
         unique=True,
     )
-    bough_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
+    bought_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="bought_by",
     )
     delivery_address = models.TextField()
     status = models.ForeignKey(
