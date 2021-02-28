@@ -63,7 +63,7 @@ ALL_AUTH = ["allauth", "allauth.account", "allauth.socialaccount"]
 
 THIRD_PARTY_APPS = DJANGO_EXTENSIONS + ALL_AUTH + REST_FRAME_WORK
 
-LOCAL_APPS = ["users", "commands"]
+LOCAL_APPS = ["users", "commands", "products"]
 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
