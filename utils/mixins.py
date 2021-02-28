@@ -13,3 +13,6 @@ class TimeStampMixin(models.Model):
         """
 
         abstract = True
+
+    def __str__(self):
+        return self.name
