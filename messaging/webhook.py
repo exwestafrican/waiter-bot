@@ -14,7 +14,7 @@ from messaging.twilio_whatsapp import send_whatsapp_message
 from messaging.utils import clean_data, resp_from_twillo_whatsapp
 from messaging.selectors import get_name_or_number, valid_command_in_message
 
-from commands.utils import make_order
+from commands.utils import initiate_order_request
 
 
 @api_view(["POST"])
@@ -29,8 +29,8 @@ def message_received(request):
         if procees_message.get("success"):
             # handle command
             cmd = procees_message["data"]["command"]
-            confirmation = make_order(message, cmd)
-            response.message("hey {}, {}".format(sender, confirmation))
+            request_message = initiate_order_request(message, cmd)
+            response.message("hey {}, {}".format(sender, request_message))
         else:
             response.message(procees_message.get("message"))
 

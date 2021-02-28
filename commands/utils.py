@@ -106,7 +106,7 @@ def create_order_summary(items: list):
         }
 
 
-def make_order(msg, command):
+def initiate_order_request(msg, command):
     # check for restaurant short code
     refined_message = remove_word(msg, command)
     vendor_search = find_vendor_code(msg)
