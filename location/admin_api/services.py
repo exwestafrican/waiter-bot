@@ -9,17 +9,19 @@ def create_restaurant(
     owner: object,
     address: str,
     available_in: object,
-    in_school: bool,
+    in_school: bool = True,
 ):
-    restaurant = Restaurant(
+    restaurant = Restaurant.objects.create(
         name=name,
-        owner=user,
+        owner=owner,
         address=address,
-        available_in=available_in,
         in_school=in_school,
     )
-    location_zip = available_in.location_zip
-    code = generate_restaurant_code(location_zip)
-    restaurant.code
+    for location in available_in:
+        restaurant.available_in.add(location)
+    prefix = name[0]
+    code = generate_restaurant_code(prefix)
+    restaurant.code = code
     restaurant.save()
+    print("doing this", code)
     add_activity(admin, "{} created a new restaurant".format(admin))

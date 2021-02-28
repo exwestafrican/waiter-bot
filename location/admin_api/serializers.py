@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from location.models import Location, Restaurant
 from location.admin_api.services import create_restaurant
+from rest_framework.validators import UniqueTogetherValidator
 
 
 class LocationModelAdminSerializer(serializers.ModelSerializer):
@@ -13,7 +14,11 @@ class RestaurantModelAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ["name", "owner", "address", "available_in", "code", "in_school"]
-        extra_kwargs = {"code": {"read_only": True}}
-
-    def save(self, request):
-        create_restaurant(admin=admin, **self.validated_data)
+        read_only_fields = ["code"]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Restaurant.objects.all(),
+                fields=["name", "owner"],
+                message="a restaurant with this name and owner already exists",
+            )
+        ]

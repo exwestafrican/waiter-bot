@@ -10,6 +10,7 @@ from location.admin_api.serializers import (
     LocationModelAdminSerializer,
     RestaurantModelAdminSerializer,
 )
+from location.admin_api.services import create_restaurant
 from utils.mixins import ModelMixins
 
 
@@ -21,6 +22,10 @@ class RestaurantAdminModelViewSet(ModelMixins):
     def get_queryset(self):
         return self.model.objects.all()
 
+    def perform_create(self, serializer):
+        admin = self.request.user
+        create_restaurant(admin=admin, **serializer.validated_data)
+
 
 class LocationAdminModelViewSet(ModelMixins):
     model = Location
@@ -29,7 +34,3 @@ class LocationAdminModelViewSet(ModelMixins):
 
     def get_queryset(self):
         self.model.objects.all()
-
-    def perform_create(self, serializer):
-        admin = self.request.user
-        serializer.save(admin)
