@@ -13,3 +13,7 @@ class User(AbstractUser):
         help_text="user phone number e.g +23409050039030",
         unique=True,
     )
+
+
+class Vendor:
+    pass

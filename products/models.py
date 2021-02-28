@@ -1,39 +1,8 @@
 from django.db import models
 import uuid
+from utils.mixins import TimeStampMixin
 
 # Create your models here.
-
-
-class TimeStampMixin(models.Model):
-    "determins when model was created and edited"
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        """
-        declearing abstract class allows class attributes to be used as fields
-        when inherited
-        """
-
-        abstract = True
-
-
-# category - model
-# title
-# created_at
-
-# product-model
-# name
-# qty
-# sold_by
-# base_charge
-# addition_charge
-# measured_in
-# available
-# countable
-# category
-
-
 class MeasurementType(TimeStampMixin):
     name = models.CharField(
         max_length=500, help_text="is this measured in scopes, or boxes or bottles"
