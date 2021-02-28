@@ -4,6 +4,7 @@ from django.db import models
 import uuid
 from django.db import models
 from utils.mixins import TimeStampMixin
+from django.conf import Settings
 
 
 class Location(TimeStampMixin):
@@ -43,7 +44,7 @@ class Restaurant(TimeStampMixin):
         help_text="restaurant name",
     )
     owner = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         help_text="who owns this restaurant",
     )
