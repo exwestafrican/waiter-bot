@@ -1,14 +1,12 @@
 import re
+from utils.helper_func import clean_data
+from products.utils import get_product_price
 
 SPECIAL_CHARACTERS = "[\s\-:;]"
 
 
 def clean_data_set(*data_set):
     return [d.strip().lower() for data in data_set]
-
-
-def clean_data(data):
-    return data.strip().lower()
 
 
 def clean_number(number):
@@ -53,22 +51,6 @@ def item_in_list(list_item: list):
     return False
 
 
-def get_product_price(item):
-    regex = r"[\-:;]{1}"
-    item = clean_data(item)
-    delimiter = re.findall(regex, item)[0]
-    if delimiter is None or delimiter == "":
-        return {
-            "success": False,
-            "message": "{}: please use a valid delimiter like - or , or : example. produce - amount".format(
-                item
-            ),
-        }
-    else:
-        product, amount = item.split(delimiter)
-        return {"success": True, "data": {"price_amount": [product, amount]}}
-
-
 def create_order_summary(items: list):
     valid_inputs = []
     invalid_inputs = []
@@ -80,18 +62,9 @@ def create_order_summary(items: list):
             continue
         else:
             product, amount = combination.get("data")["price_amount"]
-            try:
-                int(amount)
-                valid_inputs_msg.append(
-                    "buy {} amount worth {}".format(product, amount)
-                )
-                valid_inputs.append({"product": product, "amount": int(amount)})
-            except ValueError:
-                invalid_inputs.append(
-                    "{}: please ensure you use this format, produce - amount".format(
-                        item
-                    )
-                )
+            int(amount)
+            valid_inputs_msg.append("buy {} amount worth {}".format(product, amount))
+            valid_inputs.append({"product": product, "amount": int(amount)})
 
     if item_in_list(invalid_inputs):
         return {"success": False, "message": ", ".join(invalid_inputs), "data": {}}
