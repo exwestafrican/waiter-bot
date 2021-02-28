@@ -11,17 +11,15 @@ def create_restaurant(
     available_in: object,
     in_school: bool = True,
 ):
+    prefix = name[0]
     restaurant = Restaurant.objects.create(
         name=name,
         owner=owner,
         address=address,
         in_school=in_school,
+        code=generate_restaurant_code(prefix),
     )
     for location in available_in:
         restaurant.available_in.add(location)
-    prefix = name[0]
-    code = generate_restaurant_code(prefix)
-    restaurant.code = code
-    restaurant.save()
-    print("doing this", code)
+
     add_activity(admin, "{} created a new restaurant".format(admin))
