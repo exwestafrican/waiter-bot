@@ -17,6 +17,21 @@ class User(AbstractUser):
     )
 
 
+class ActivityLog(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="activity_logger",
+    )
+    action = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    successful = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.action
+
+
 class Profile(TimeStampMixin):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
