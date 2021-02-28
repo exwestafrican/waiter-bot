@@ -29,8 +29,8 @@ def message_received(request):
         if procees_message.get("success"):
             # handle command
             cmd = procees_message["data"]["command"]
-            code = make_order(message, cmd)
-            response.message("hey, {} your vendor code is {}".format(sender, code))
+            confirmation = make_order(message, cmd)
+            response.message("hey {}, {}".format(sender, confirmation))
         else:
             response.message(procees_message.get("message"))
 

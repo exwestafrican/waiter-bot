@@ -32,3 +32,5 @@ regex = r"#\s?\w+"
 msg = (
     "Vendor code 300 IPhone - 500,000 #make_order Airpods - 100,000 Mac book - 1500000"
 )
+
+msg = "Rice50 meat100 Beans600"

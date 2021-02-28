@@ -18,7 +18,7 @@ class Command(models.Model):
     )
 
     def __str__(self):
-        return "#{self.name}"
+        return "#{}".format(self.name)
 
     @property
     def example_command_format(self):
