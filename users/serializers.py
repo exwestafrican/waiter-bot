@@ -73,7 +73,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             return phone_number
 
     def custom_signup(self, request, user):
-        customer_group = Group.objects.get(name="customer")
-        customer_group.user_set.add(user)
         user.phone_number = self.validated_data.get("phone_number")
+        customer_group = Group.objects.get(name="customer")
+        print("adding to group")
+        customer_group.user_set.add(user)
         user.save()
