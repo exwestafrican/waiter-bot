@@ -62,13 +62,13 @@ class Restaurant(TimeStampMixin):
     account_details = models.CharField(
         max_length=20,
         null=True,
-        help_text="user phone number e.g +23409050039030",
+        help_text="e.g 0229345589",
         blank=True,
     )
     bank_name = models.CharField(
         max_length=500,
         null=True,
-        help_text="user phone number e.g +23409050039030",
+        help_text="e.g Wema",
         blank=True,
     )
     code = models.CharField(max_length=4, null=True, blank=True, unique=True)
