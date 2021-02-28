@@ -10,7 +10,6 @@ from django.conf import Settings
 class Location(TimeStampMixin):
     area = models.CharField(
         max_length=800,
-        null=True,
         help_text="locations are usually generic, like mainland or Ota",
     )
 
@@ -22,6 +21,7 @@ class Location(TimeStampMixin):
     popular_name = models.CharField(
         max_length=800,
         null=True,
+        blank=True,
         help_text="where do people usually attribute this place to",
     )
 
