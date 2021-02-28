@@ -118,6 +118,7 @@ def initiate_order_request(msg, command):
         just_items_left = remove_word(refined_message, search_context)
         # send order summary
         items = get_food_item(just_items_left)
+        # validate input, validate products order , validate quantity ordered
         summary = create_order_summary(items)
         return summary.get("message")
         # search for order item

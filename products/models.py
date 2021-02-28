@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from utils.mixins import TimeStampMixin
+from location.models import Restaurant
 
 # Create your models here.
 class MeasurementType(TimeStampMixin):
@@ -39,6 +40,7 @@ class Product(TimeStampMixin):
     )
     available = models.BooleanField(default=True)
     countable = models.BooleanField(default=True)
+    sold_by = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
