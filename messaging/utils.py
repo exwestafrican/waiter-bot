@@ -5,7 +5,7 @@ from commands.selectors import get_command_list, get_example, get_a_random_comma
 def find_command_in_message(msg, sender):
     regex = r"#\s?\w+"
     match = re.findall(regex, msg)
-    print(match)
+
     if not match:
         commands = ", ".join(get_command_list()[:5])
         command = get_a_random_command()
