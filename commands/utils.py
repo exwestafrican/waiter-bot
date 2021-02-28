@@ -53,26 +53,33 @@ def item_in_list(list_item: list):
     return False
 
 
-def create_order_summary(items: list):
+def get_product_price(item):
     regex = r"[\-:;]{1}"
+    item = clean_data(item)
+    delimiter = re.findall(regex, item)[0]
+    if delimiter is None or delimiter == "":
+        return {
+            "success": False,
+            "message": "{}: please use a valid delimiter like - or , or : example. produce - amount".format(
+                item
+            ),
+        }
+    else:
+        product, amount = item.split(delimiter)
+        return {"success": True, "data": {"price_amount": [product, amount]}}
+
+
+def create_order_summary(items: list):
     valid_inputs = []
     invalid_inputs = []
     valid_inputs_msg = []
     for item in items:
-        item = clean_data(item)
-
-        delimiter = re.findall(regex, item)[0]
-
-        if delimiter is None or delimiter == "":
-            invalid_inputs.append(
-                "{}: please use a valid delimiter like - or , or : example. produce - amount".format(
-                    item
-                )
-            )
+        combination = get_product_price(item)
+        if combination.get("success") is False:
+            invalid_inputs.append(combination.get("message"))
             continue
-
         else:
-            product, amount = item.split(delimiter)
+            product, amount = combination.get("data")["price_amount"]
             try:
                 int(amount)
                 valid_inputs_msg.append(
@@ -92,7 +99,7 @@ def create_order_summary(items: list):
     elif item_in_list(valid_inputs):
         return {
             "success": True,
-            "message": "please confrim your order summary {} and send #confirm_order with an address e.g address: boys hotel,silver-one, room 30B. please put 'address:' before the address so i can find the address.".format(
+            "message": "please confrim your order summary {} and send #confirm_order with an address e.g #confrim_order to address: boys hotel,silver-one, room 30B. please put 'address:' before the address so i can find the address.".format(
                 ", ".join(valid_inputs_msg)
             ),
             "data": valid_inputs,
