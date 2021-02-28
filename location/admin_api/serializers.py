@@ -15,5 +15,5 @@ class RestaurantModelAdminSerializer(serializers.ModelSerializer):
         fields = ["name", "owner", "address", "available_in", "code", "in_school"]
         extra_kwargs = {"code": {"read_only": True}}
 
-    def save(self):
-        create_restaurant(**self.validated_data)
+    def save(self, request):
+        create_restaurant(admin=admin, **self.validated_data)

@@ -6,16 +6,20 @@ from rest_framework import status
 from rest_framework.decorators import action
 
 from location.models import Location, Restaurant
-from location.admin_api.serializers import LocationModelAdminSerializer
+from location.admin_api.serializers import (
+    LocationModelAdminSerializer,
+    RestaurantModelAdminSerializer,
+)
 from utils.mixins import ModelMixins
 
 
 class RestaurantAdminModelViewSet(ModelMixins):
     model = Restaurant
     permission_classes = [IsAuthenticated]
+    serializer_class = RestaurantModelAdminSerializer
 
     def get_queryset(self):
-        self.model.objects.all()
+        return self.model.objects.all()
 
 
 class LocationAdminModelViewSet(ModelMixins):
@@ -25,3 +29,7 @@ class LocationAdminModelViewSet(ModelMixins):
 
     def get_queryset(self):
         self.model.objects.all()
+
+    def perform_create(self, serializer):
+        admin = self.request.user
+        serializer.save(admin)

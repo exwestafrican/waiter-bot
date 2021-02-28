@@ -19,3 +19,7 @@ class LocationModelViewSet(ModelMixins):
 
     def get_queryset(self):
         return self.model.objects.all()
+
+    def create(self):
+        # raise not implimented
+        pass

@@ -10,8 +10,6 @@ def create_restaurant(
     address: str,
     available_in: object,
     in_school: bool,
-    *args,
-    **kwargs,
 ):
     restaurant = Restaurant(
         name=name,
