@@ -58,19 +58,6 @@ class Restaurant(TimeStampMixin):
         related_name="available_in",
         help_text="where are the places this restruant is located in",
     )
-
-    account_details = models.CharField(
-        max_length=20,
-        null=True,
-        help_text="e.g 0229345589",
-        blank=True,
-    )
-    bank_name = models.CharField(
-        max_length=500,
-        null=True,
-        help_text="e.g Wema",
-        blank=True,
-    )
     code = models.CharField(max_length=4, null=True, blank=True, unique=True)
 
 
@@ -90,3 +77,6 @@ class Profile(TimeStampMixin):
     @property
     def users_title(self):
         return self.user.groups.first()
+
+
+# add a bank later on
