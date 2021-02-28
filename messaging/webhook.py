@@ -1,29 +1,39 @@
+from django.http import HttpResponse
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from messaging.utils import clean_data, find_command
-from messaging.twilio_whatsapp import send_whatsapp_message
+
 from twilio.twiml.messaging_response import MessagingResponse
 
-from django.http import HttpResponse
+
+from commands.selectors import command_list
+from commands.selectors import get_command_list, get_example
+from messaging.twilio_whatsapp import send_whatsapp_message
+from messaging.utils import clean_data, resp_from_twillo_whatsapp
+from messaging.selectors import get_name_or_number, valid_command_in_message
+
+from commands.utils import make_order
 
 
 @api_view(["POST"])
 def message_received(request):
     if request.method == "POST":
-        msg = request.data.get("Body")
-        sender = request.data.get("From")
+        resp = resp_from_twillo_whatsapp(request.data)
+        msg = resp["msg"]
+        sender = get_name_or_number(resp["sender"])
         message = clean_data(msg)
-        command = find_command(msg)
-        # "#order rice-50,plantain-70,meat-50"
-        # send_whatsapp_message(
-        #     "+2348169084566",
-        #     "+14155238886",
-        #     "got the message" + str(request.data.get("ProfileName")),
-        # )
         response = MessagingResponse()
-        response.message("Send us an image!")
+        procees_message = valid_command_in_message(message, sender)
+        if procees_message.get("success"):
+            # handle command
+            cmd = procees_message["data"]["command"]
+            confirmation = make_order(message, cmd)
+            response.message("hey {}, {}".format(sender, confirmation))
+        else:
+            response.message(procees_message.get("message"))
+
         return HttpResponse(str(response))
 
 

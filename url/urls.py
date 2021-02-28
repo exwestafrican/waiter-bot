@@ -19,6 +19,7 @@ from django.urls import path, include
 from messaging import webhook
 from rest_framework import routers
 from users.views import *
+from commands.views import *
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -26,8 +27,10 @@ from rest_framework_simplejwt.views import (
 )
 
 base_url = "api/v1/"
+
 router = routers.DefaultRouter()
 router.register("users", UserModelViewSet, basename="users")
+router.register("commands", CommandModelViewSet, basename="commands")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -36,6 +39,4 @@ urlpatterns = [
     path(base_url, include(router.urls)),
     path("api/v1/rest-auth/registration/", include("rest_auth.registration.urls")),
     path("api/v1/rest-auth/", include("rest_auth.urls")),
-    # path(base_url + "token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    # path(base_url + "token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

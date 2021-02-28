@@ -10,7 +10,7 @@ __pycache__/
 config/
 
 db.sqlite3
-
+trash.py 
 # C extensions
 *.so
 .idea
