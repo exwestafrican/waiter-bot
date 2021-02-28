@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from commands.models import Command
 from commands.serializers import CommandModelSerializer
-from commands.model_mixins import ModelMixins
+from utils.mixins import ModelMixins
 
 
 class CommandModelViewSet(ModelMixins):

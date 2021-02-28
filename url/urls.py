@@ -20,7 +20,7 @@ from messaging import webhook
 from rest_framework import routers
 from users.views import *
 from commands.views import *
-
+from location.admin_api.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -29,14 +29,21 @@ from rest_framework_simplejwt.views import (
 base_url = "api/v1/"
 
 router = routers.DefaultRouter()
+admin_router = routers.DefaultRouter()
+
 router.register("users", UserModelViewSet, basename="users")
 router.register("commands", CommandModelViewSet, basename="commands")
+
+admin_router.register(
+    "restaurants", RestaurantAdminModelViewSet, basename="restaurants"
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(base_url + "webhooks/message_received/", webhook.message_received),
     path(base_url + "webhooks/send_message/", webhook.send_message),
     path(base_url, include(router.urls)),
+    path(base_url + "admin", include(admin_router.urls)),
     path("api/v1/rest-auth/registration/", include("rest_auth.registration.urls")),
     path("api/v1/rest-auth/", include("rest_auth.urls")),
 ]
