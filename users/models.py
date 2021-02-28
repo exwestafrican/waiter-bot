@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from utils.mixins import TimeStampMixin
 from django.conf import settings
+
 # Create your models here.
 
 
@@ -15,9 +16,10 @@ class User(AbstractUser):
         unique=True,
     )
 
+
 class Profile(TimeStampMixin):
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,,
+        settings.AUTH_USER_MODEL,
         primary_key=True,
         on_delete=models.CASCADE,
         help_text="is this measured in scopes, or boxes or bottles",
