@@ -3,13 +3,12 @@ from users.services import add_activity
 
 
 def change_users_role(admin: object, user: object, new_role: str):
-
-    group = get_role(name=new_role)
-    print(group)
-    if group is not None:
-        user.groups.remove(group)
-        new_group = get_role(name=new_role)
-        user.groups.add(new_group)
+    old_group = user.groups.first()
+    new_group = get_role(name=new_role)
+    if old_group is not None and new_group is not None:
+        old_group.user_set.remove(user)
+        new_group.user_set.add(user)
+        user.save()
         add_activity(
             admin,
             "{} changed {}'s role to {}".format(

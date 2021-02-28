@@ -34,7 +34,7 @@ class UserAdminModelViewSet(viewsets.ModelViewSet):
                         ),
                         "data": "",
                     },
-                    status=status.HTTP_200_Ok,
+                    status=status.HTTP_200_OK,
                 )
             return Response(
                 {
