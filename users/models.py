@@ -81,8 +81,6 @@ class Profile(TimeStampMixin):
         primary_key=True,
         on_delete=models.CASCADE,
         help_text="is this measured in scopes, or boxes or bottles",
-        null=True,
-        blank=True,
     )
 
     def __str__(self):
