@@ -4,7 +4,7 @@ from django.db import models
 import uuid
 from django.db import models
 from utils.mixins import TimeStampMixin
-from django.conf import Settings
+from django.conf import settings
 
 
 class Location(TimeStampMixin):
