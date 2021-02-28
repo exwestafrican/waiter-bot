@@ -189,5 +189,6 @@ JWT_AUTH = {
     "JWT_ALLOW_REFRESH": True,
 }
 
+SHELL_PLUS = "ipython"
 
 django_heroku.settings(locals())
