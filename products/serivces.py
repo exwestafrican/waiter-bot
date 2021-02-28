@@ -3,6 +3,7 @@ from decimal import Decimal
 
 
 def create_product(
+    admin: object,
     name: str,
     base_charge: Decimal,
     addition_charge: Decimal,
@@ -11,7 +12,7 @@ def create_product(
     countable: bool,
     sold_by: object,
 ):
-    return Product.objects.create(
+    Product.objects.create(
         name=name,
         base_charge=base_charge,
         addition_charge=addition_charge,
@@ -19,3 +20,7 @@ def create_product(
         countable=countable,
         sold_by=sold_by,
     )
+    add_activity(
+        admin, "{}, added new product for {}".format(admin.first_name, sold_by)
+    )
+    return True
