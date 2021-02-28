@@ -5,10 +5,17 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 
 from location.models import Location, Restaurant
+from utils.mixins import ModelMixins
+from location.serializers import LocationModelSerializer
 
 
-class LocationModelViewSet:
-    # add permission class to create
-    pass
+class LocationModelViewSet(ModelMixins):
+    model = Location
+    permission_classes = [IsAuthenticated]
+    serializer_class = LocationModelSerializer
+
+    def get_queryset(self):
+        return self.model.objects.all()

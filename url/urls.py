@@ -22,6 +22,7 @@ from users.views import *
 from users.admin_api.views import *
 from commands.views import *
 from location.admin_api.views import *
+from location.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -34,10 +35,12 @@ admin_router = routers.DefaultRouter()
 
 router.register("users", UserModelViewSet, basename="users")
 router.register("commands", CommandModelViewSet, basename="commands")
+router.register("locations", LocationModelViewSet, basename="locations")
 
 admin_router.register(
     "restaurants", RestaurantAdminModelViewSet, basename="restaurants"
 )
+admin_router.register("locations", LocationAdminModelViewSet, basename="locations")
 admin_router.register("users", UserAdminModelViewSet, basename="users")
 
 urlpatterns = [

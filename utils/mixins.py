@@ -38,3 +38,17 @@ class ModelMixins(viewsets.ModelViewSet):
                 {"success": False, "message": "failed", "data": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(
+            {"success": True, "message": "successful", "data": serializer.data},
+            status=status.HTTP_200_OK,
+        )
