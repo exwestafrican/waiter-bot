@@ -18,11 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from messaging import webhook
 from rest_framework import routers
-from users.views import *
+
+# admin
 from users.admin_api.views import *
-from commands.views import *
 from location.admin_api.views import *
+from products.admin_api.views import *
+
+# users
+from commands.views import *
 from location.views import *
+from users.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -42,7 +47,7 @@ admin_router.register(
 )
 admin_router.register("locations", LocationAdminModelViewSet, basename="locations")
 admin_router.register("users", UserAdminModelViewSet, basename="users")
-
+admin_router.register("products", ProductAdminModelViewSet, basename="products")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(base_url + "webhooks/message_received/", webhook.message_received),

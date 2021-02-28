@@ -1,5 +1,6 @@
 from products.models import Product
 from decimal import Decimal
+from users.services import add_activity
 
 
 def create_product(
@@ -8,9 +9,9 @@ def create_product(
     base_charge: Decimal,
     addition_charge: Decimal,
     measured_in: int,
-    available: bool,
-    countable: bool,
     sold_by: object,
+    available: bool = True,
+    countable: bool = False,
 ):
     Product.objects.create(
         name=name,
@@ -24,3 +25,8 @@ def create_product(
         admin, "{}, added new product for {}".format(admin.first_name, sold_by)
     )
     return True
+
+
+def change_status_of_product(product):
+    product.available = not bool(product.available)
+    return product.available
