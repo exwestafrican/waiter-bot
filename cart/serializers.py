@@ -6,11 +6,12 @@ from products.selectors import product_exists
 class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        field = ["id", "product", "quantity"]
+        fields = ["product", "quantity"]
+        read_only_fields = ["id"]
 
 
 class CartSerializer(serializers.ModelSerializer):
-    cart_item = serializers.StringRelatedField(many=True)
+    cart_item = CartItemSerializer(many=True)
 
     class Meta:
         model = Cart
@@ -26,9 +27,10 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
 
     def validate(self, data):
+        print(data)
         cart_item = data.get("cart_item")
         for product in cart_item:
-            if not product_exists(id=product.get("id")):
+            if not product_exists(id=product.get("product")):
                 raise serializers.ValidationError(
                     "{} does not exist".format(product.get("product"))
                 )
