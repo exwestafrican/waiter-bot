@@ -15,9 +15,6 @@ class OrderStatus(TimeStampMixin):
 
 class Cart(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # cart_item = models.ForeignKey(
-    #     CartItem, on_delete=models.SET_NULL, null=True, blank=True
-    # )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -50,7 +47,12 @@ class Cart(TimeStampMixin):
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=1)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return "{} ({} {}}".format(

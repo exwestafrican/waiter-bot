@@ -6,3 +6,6 @@ def valid_product_ordered(order_list):
     for product in order_list:
         pass
 
+
+def product_exists(**args):
+    return product.objects.filter(**args).exists()
