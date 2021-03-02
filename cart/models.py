@@ -42,6 +42,13 @@ class Cart(TimeStampMixin):
         else:
             return "{}'s cart".format(self.contact)
 
+    @property
+    def from_school_vendor(self):
+        try:
+            return self.cart_item.first().product.sold_by.in_school
+        except AttributeError:
+            return None
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -51,8 +58,10 @@ class CartItem(models.Model):
     )
 
     def __str__(self):
-        return "{} ({} {}}".format(
-            self.product.name, self.quantity, self.product.measured_in
+        return "{}'s {} of {}".format(
+            self.quantity,
+            self.product.measured_in.name,
+            self.product,
         )
 
     @property

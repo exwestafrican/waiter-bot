@@ -18,6 +18,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     cart_item = CartItemSerializer(many=True)
     status = serializers.SerializerMethodField()
+    fee = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
@@ -29,12 +30,20 @@ class CartSerializer(serializers.ModelSerializer):
             "delivery_address",
             "status",
             "cart_item",
+            "fee",
         ]
         read_only_fields = ["id"]
         extra_kwargs = {"contact": {"required": True}}
 
     def get_status(self, obj):
         return obj.status.name
+
+    def get_fee(self, obj):
+        if obj.from_school_vendor is True:
+            return 100
+        elif obj.from_school_vendor is False:
+            return 1000
+        return 0
 
     def validate(self, data):
         cart_item = data.get("cart_item")
