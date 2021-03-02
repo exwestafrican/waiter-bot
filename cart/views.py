@@ -8,9 +8,10 @@ from rest_framework.decorators import action
 
 from cart.models import Cart
 from cart.serializers import CartSerializer
+from utils.mixins import ModelMixins
 
 
-class CartModelViewSet(viewsets.ModelViewSet):
+class CartModelViewSet(ModelMixins):
     model = Cart
     serializer_class = CartSerializer
 

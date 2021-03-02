@@ -25,6 +25,7 @@ class CartSerializer(serializers.ModelSerializer):
             "cart_item",
         ]
         read_only_fields = ["id"]
+        extra_kwargs = {"contact": {"required": True}}
 
     def validate(self, data):
         cart_item = data.get("cart_item")
@@ -35,11 +36,12 @@ class CartSerializer(serializers.ModelSerializer):
                 )
             return data
 
-        
-
     def create(self, validated_data):
         cart_item = validated_data.pop("cart_item")
         cart = Cart.objects.create(**validated_data)
         for product in cart_item:
             CartItem.objects.create(cart=cart, **product)
         return cart
+
+    def update(self, instance, validated_data):
+        print(instance)
