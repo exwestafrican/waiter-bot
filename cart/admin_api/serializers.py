@@ -6,3 +6,4 @@ class OrderStatusAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderStatus
         fields = ["name"]
+        extra_kwargs = {"name": {"required": True}}

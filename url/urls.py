@@ -23,6 +23,7 @@ from rest_framework import routers
 from users.admin_api.views import *
 from location.admin_api.views import *
 from products.admin_api.views import *
+from cart.admin_api.views import *
 
 # users
 from commands.views import *
@@ -48,6 +49,8 @@ admin_router.register(
 admin_router.register("locations", LocationAdminModelViewSet, basename="locations")
 admin_router.register("users", UserAdminModelViewSet, basename="users")
 admin_router.register("products", ProductAdminModelViewSet, basename="products")
+admin_router.register("order", OrderStatusAdminModelViewSet, basename="order")
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(base_url + "webhooks/message_received/", webhook.message_received),

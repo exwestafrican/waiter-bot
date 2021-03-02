@@ -17,6 +17,18 @@ class OrderStatusAdminModelViewSet(ModelMixins):
     def get_queryset(self):
         return self.model.objects.all()
 
-    def perform_create(self, serializer):
-        admin = self.request.user
-        create_order_status(admin, **serializer.validated_data)
+    @action(methods=["post"], detail=False)
+    def create_status(self, request):
+        admin = request.user
+        serializer = OrderStatusAdminSerializer(data=request.data)
+        if serializer.is_valid():
+            create_order_status(admin, **serializer.validated_data)
+            return Response(
+                {"success": True, "message": "status created", "data": ""},
+                status=status.HTTP_201_CREATED,
+            )
+        else:
+            return Response(
+                {"success": False, "message": "failed", "data": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
