@@ -27,17 +27,19 @@ class CartSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
 
     def validate(self, data):
-        print(data)
         cart_item = data.get("cart_item")
         for product in cart_item:
-            if not product_exists(id=product.get("product")):
+            if not product_exists(id=product.get("product").id):
                 raise serializers.ValidationError(
                     "{} does not exist".format(product.get("product"))
                 )
             return data
 
-    def save(self, validated_data):
+        
+
+    def create(self, validated_data):
         cart_item = validated_data.pop("cart_item")
-        Cart.objects.create(**validated_data)
+        cart = Cart.objects.create(**validated_data)
         for product in cart_item:
-            CartItem.objects.create(**product)
+            CartItem.objects.create(cart=cart, **product)
+        return cart
