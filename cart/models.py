@@ -52,6 +52,7 @@ class CartItem(models.Model):
         on_delete=models.CASCADE,
         null=True,
         blank=True,
+        related_name="cart_item"
     )
 
     def __str__(self):
