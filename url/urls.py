@@ -29,6 +29,7 @@ from cart.admin_api.views import *
 from commands.views import *
 from location.views import *
 from users.views import *
+from cart.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -42,6 +43,7 @@ admin_router = routers.DefaultRouter()
 router.register("users", UserModelViewSet, basename="users")
 router.register("commands", CommandModelViewSet, basename="commands")
 router.register("locations", LocationModelViewSet, basename="locations")
+router.register("carts", CartModelViewSet, basename="carts")
 
 admin_router.register(
     "restaurants", RestaurantAdminModelViewSet, basename="restaurants"
