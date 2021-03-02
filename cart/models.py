@@ -58,7 +58,7 @@ class CartItem(models.Model):
     @property
     def total(self):
         base_units = 1
-        addition_units = subtract(self.quantity, 1)
+        addition_units = float(self.quantity) - float(1)
         return multiply(base_units, self.product.base_charge) + multiply(
             addition_units, self.product.addition_charge
         )

@@ -4,14 +4,20 @@ from products.selectors import product_exists
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.SerializerMethodField()
+
     class Meta:
         model = CartItem
-        fields = ["product", "quantity"]
+        fields = ["product", "product_name", "quantity", "total"]
         read_only_fields = ["id"]
+
+    def get_product_name(self, obj):
+        return obj.product.name
 
 
 class CartSerializer(serializers.ModelSerializer):
     cart_item = CartItemSerializer(many=True)
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
@@ -26,6 +32,9 @@ class CartSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id"]
         extra_kwargs = {"contact": {"required": True}}
+
+    def get_status(self, obj):
+        return obj.status.name
 
     def validate(self, data):
         cart_item = data.get("cart_item")
@@ -44,4 +53,14 @@ class CartSerializer(serializers.ModelSerializer):
         return cart
 
     def update(self, instance, validated_data):
-        print(instance)
+        instance.contact = validated_data.get("contact", instance.contact)
+        instance.delivery_address = validated_data.get(
+            "delivery_address", instance.delivery_address
+        )
+        instance.bought_by = validated_data.get("bought_by", instance.bought_by)
+        instance.status = validated_data.get("status", instance.status)
+        new_items = validated_data.get("cart_item")
+        instance.cart_item.all().delete()
+        for product in new_items:
+            CartItem.objects.create(cart=instance, **product)
+        return instance
