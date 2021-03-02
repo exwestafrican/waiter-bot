@@ -15,6 +15,7 @@ class OrderStatus(TimeStampMixin):
 
 class Cart(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cart_item = models.ForeignKey(Cart, on_delete=models.CASCADE)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
