@@ -13,9 +13,28 @@ class OrderStatus(TimeStampMixin):
     name = models.CharField(max_length=500)
 
 
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=1)
+    # cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} ({} {}}".format(
+            self.product.name, self.quantity, self.product.measured_in
+        )
+
+    @property
+    def total(self):
+        base_units = 1
+        addition_units = subtract(self.quantity, 1)
+        return multiply(base_units, self.product.base_charge) + multiply(
+            addition_units, self.product.addition_charge
+        )
+
+
 class Cart(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cart_item = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart_item = models.ForeignKey(CartItem, on_delete=models.CASCADE)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
@@ -43,22 +62,3 @@ class Cart(TimeStampMixin):
 
         else:
             return "{}'s cart".format(self.contact)
-
-
-class CartItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField(default=1)
-    # cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "{} ({} {}}".format(
-            self.product.name, self.quantity, self.product.measured_in
-        )
-
-    @property
-    def total(self):
-        base_units = 1
-        addition_units = subtract(self.quantity, 1)
-        return multiply(base_units, self.product.base_charge) + multiply(
-            addition_units, self.product.addition_charge
-        )
