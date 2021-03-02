@@ -34,7 +34,9 @@ class CartItem(models.Model):
 
 class Cart(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    cart_item = models.ForeignKey(CartItem, on_delete=models.CASCADE)
+    cart_item = models.ForeignKey(
+        CartItem, on_delete=models.SET_NULL, null=True, blank=True
+    )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
     )
