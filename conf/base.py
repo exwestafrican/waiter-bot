@@ -199,5 +199,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+PAYSTACK_SECRET = env("PAYSTACK_SECRET")
 
 django_heroku.settings(locals())
