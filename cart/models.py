@@ -23,6 +23,7 @@ class Cart(TimeStampMixin):
         null=True,
         help_text="user phone number e.g +23409050039030",
     )
+    email = models.EmailField(max_length=254)
     bought_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -34,6 +35,7 @@ class Cart(TimeStampMixin):
     status = models.ForeignKey(
         OrderStatus, on_delete=models.SET_NULL, null=True, blank=True
     )
+    reference = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         if self.owner is not None:
