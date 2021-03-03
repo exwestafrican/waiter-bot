@@ -1,9 +1,9 @@
-from location.models import Restaurant
+from location.models import Store
 from location.utils import generate_restaurant_code
 from users.services import add_activity
 
 
-def create_restaurant(
+def create_store(
     admin,
     name: str,
     owner: object,

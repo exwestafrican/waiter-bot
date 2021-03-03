@@ -45,9 +45,7 @@ router.register("commands", CommandModelViewSet, basename="commands")
 router.register("locations", LocationModelViewSet, basename="locations")
 router.register("carts", CartModelViewSet, basename="carts")
 
-admin_router.register(
-    "restaurants", RestaurantAdminModelViewSet, basename="restaurants"
-)
+admin_router.register("stores", StoreAdminModelViewSet, basename="stores")
 admin_router.register("locations", LocationAdminModelViewSet, basename="locations")
 admin_router.register("users", UserAdminModelViewSet, basename="users")
 admin_router.register("products", ProductAdminModelViewSet, basename="products")

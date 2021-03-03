@@ -37,7 +37,7 @@ class Location(TimeStampMixin):
         return self.pk
 
 
-class Restaurant(TimeStampMixin):
+class Store(TimeStampMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(
         max_length=500,

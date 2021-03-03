@@ -1,11 +1,11 @@
 from django.contrib import admin
 
 # Register your models here.
-from location.models import Restaurant
+from location.models import Store
 
 
-class RestaurantAdmin(admin.ModelAdmin):
-    model = Restaurant
+class StoreAdmin(admin.ModelAdmin):
+    model = Store
 
 
-admin.site.register(Restaurant, RestaurantAdmin)
+admin.site.register(Store, StoreAdmin)

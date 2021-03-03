@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from location.models import Location, Restaurant
+from location.models import Location, Store
 from location.admin_api.services import create_restaurant
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -10,9 +10,9 @@ class LocationModelAdminSerializer(serializers.ModelSerializer):
         fields = ["area", "state", "popular_name"]
 
 
-class RestaurantModelAdminSerializer(serializers.ModelSerializer):
+class StoreModelAdminSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Restaurant
+        model = Store
         fields = ["name", "owner", "address", "available_in", "code", "in_school"]
         read_only_fields = ["code"]
         validators = [

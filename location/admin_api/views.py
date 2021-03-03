@@ -10,21 +10,21 @@ from location.admin_api.serializers import (
     LocationModelAdminSerializer,
     RestaurantModelAdminSerializer,
 )
-from location.admin_api.services import create_restaurant
+from location.admin_api.services import create_store
 from utils.mixins import ModelMixins
 
 
-class RestaurantAdminModelViewSet(ModelMixins):
-    model = Restaurant
+class StoreAdminModelViewSet(ModelMixins):
+    model = Store
     permission_classes = [IsAuthenticated]
-    serializer_class = RestaurantModelAdminSerializer
+    serializer_class = StoreModelAdminSerializer
 
     def get_queryset(self):
         return self.model.objects.all()
 
     def perform_create(self, serializer):
         admin = self.request.user
-        create_restaurant(admin=admin, **serializer.validated_data)
+        create_store(admin=admin, **serializer.validated_data)
 
 
 class LocationAdminModelViewSet(ModelMixins):
