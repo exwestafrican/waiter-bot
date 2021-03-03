@@ -23,6 +23,7 @@ class Cart(TimeStampMixin):
         null=True,
         help_text="user phone number e.g +23409050039030",
     )
+    name = models.CharField(max_length=254)
     email = models.EmailField(max_length=254)
     bought_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
