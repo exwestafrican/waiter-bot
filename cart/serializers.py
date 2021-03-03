@@ -28,6 +28,7 @@ class CartSerializer(serializers.ModelSerializer):
             "id",
             "owner",
             "contact",
+            "name",
             "email",
             "bought_by",
             "delivery_address",
