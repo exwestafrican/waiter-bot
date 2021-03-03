@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 
-from location.models import Location, Restaurant
+from location.models import Location, Store
 from location.admin_api.serializers import (
     LocationModelAdminSerializer,
-    RestaurantModelAdminSerializer,
+    StoreModelAdminSerializer,
 )
 from location.admin_api.services import create_store
 from utils.mixins import ModelMixins
