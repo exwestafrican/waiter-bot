@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from cart.models import Cart, CartItem
 from products.selectors import product_exists
+from users.selectors import get_user
+from cart.services import create_cart
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -57,7 +59,8 @@ class CartSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         cart_item = validated_data.pop("cart_item")
-        cart = Cart.objects.create(**validated_data)
+        owner = get_user(phone_number=validated_data.get("contact"))
+        cart = create_cart(owner=owner, **validated_data)
         for product in cart_item:
             CartItem.objects.create(cart=cart, **product)
         return cart
