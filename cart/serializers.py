@@ -26,13 +26,14 @@ class CartSerializer(serializers.ModelSerializer):
             "id",
             "owner",
             "contact",
+            "email",
             "bought_by",
             "delivery_address",
             "status",
             "cart_item",
             "fee",
         ]
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "owner"]
         extra_kwargs = {"contact": {"required": True}}
 
     def get_status(self, obj):
