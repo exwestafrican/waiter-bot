@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
-from location.models import Location, Restaurant
+from location.models import Location
 from utils.mixins import ModelMixins
 from location.serializers import LocationModelSerializer
 

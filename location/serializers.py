@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from location.models import Location, Restaurant
+from location.models import Location
 
 
 class LocationModelSerializer(serializers.ModelSerializer):
