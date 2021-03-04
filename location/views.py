@@ -22,3 +22,7 @@ class StoreModelViewSet(ReadOnlyMixins):
     model = Store
     serializer_class = StoreModelSerializer
     queryset = Store.objects.all()
+
+    @action(methods=["get"], detail=True)
+    def view_products(self, request, pk=None):
+        vendor = self.get_object()
