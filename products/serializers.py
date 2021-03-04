@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from products.models import Category, Product
+from location.serializers import StoreModelSerializer
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -10,6 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
+    sold_by = StoreModelSerializer(read_only=True)
 
     class Meta:
         model = Product

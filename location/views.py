@@ -10,6 +10,9 @@ from rest_framework.permissions import IsAuthenticated
 from location.models import Location, Store
 from utils.mixins import ModelMixins, ReadOnlyMixins
 from location.serializers import LocationModelSerializer, StoreModelSerializer
+from location.selectors import get_products_in_store
+
+from products.serializers import ProductSerializer
 
 
 class LocationModelViewSet(ReadOnlyMixins):
@@ -25,4 +28,10 @@ class StoreModelViewSet(ReadOnlyMixins):
 
     @action(methods=["get"], detail=True)
     def view_products(self, request, pk=None):
-        vendor = self.get_object()
+        store = self.get_object()
+        products = get_products_in_store(store)
+        serializer = ProductSerializer(products, many=True)
+        return Response(
+            {"success": True, "message": "successful", "data": serializer.data},
+            status=status.HTTP_200_OK,
+        )
