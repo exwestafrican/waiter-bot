@@ -7,19 +7,18 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
-from location.models import Location
-from utils.mixins import ModelMixins
-from location.serializers import LocationModelSerializer
+from location.models import Location, Store
+from utils.mixins import ModelMixins, ReadOnlyMixins
+from location.serializers import LocationModelSerializer, StoreModelSerializer
 
 
-class LocationModelViewSet(ModelMixins):
+class LocationModelViewSet(ReadOnlyMixins):
     model = Location
-    permission_classes = [IsAuthenticated]
     serializer_class = LocationModelSerializer
+    queryset = Location.objects.all()
 
-    def get_queryset(self):
-        return self.model.objects.all()
 
-    def create(self):
-        # raise not implimented
-        pass
+class StoreModelViewSet(ReadOnlyMixins):
+    model = Store
+    serializer_class = StoreModelSerializer
+    queryset = Store.objects.all()
