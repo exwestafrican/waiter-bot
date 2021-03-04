@@ -30,6 +30,7 @@ from commands.views import *
 from location.views import *
 from users.views import *
 from cart.views import *
+from products.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -44,6 +45,7 @@ router.register("users", UserModelViewSet, basename="users")
 router.register("commands", CommandModelViewSet, basename="commands")
 router.register("locations", LocationModelViewSet, basename="locations")
 router.register("carts", CartModelViewSet, basename="carts")
+router.register("products", ProductModelViewSet, basename="products")
 
 admin_router.register("stores", StoreAdminModelViewSet, basename="stores")
 admin_router.register("locations", LocationAdminModelViewSet, basename="locations")
