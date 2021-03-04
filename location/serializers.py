@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from location.models import Location, Store
-
+from utils.dynamic_serializers import DynamicFieldsModelSerializer
 
 class LocationModelSerializer(serializers.ModelSerializer):
     class Meta:
