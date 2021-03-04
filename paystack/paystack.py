@@ -1,2 +1,0 @@
-class PaymentProcessor:
-    pass

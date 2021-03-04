@@ -38,6 +38,9 @@ class Product(TimeStampMixin):
         null=True,
         blank=True,
     )
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True
+    )
     available = models.BooleanField(default=True)
     countable = models.BooleanField(default=True)
     sold_by = models.ForeignKey(Store, on_delete=models.CASCADE)
