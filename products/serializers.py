@@ -11,7 +11,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
-    sold_by = StoreModelSerializer(read_only=True)
+    sold_by = StoreModelSerializer(
+        read_only=True,
+        fields=["id", "name", "address", "code", "in_school"],
+    )
 
     class Meta:
         model = Product
