@@ -1,4 +1,4 @@
-import request
+import requests
 from django.conf import settings
 
 PAYSTACK_BASE_URL = "https://api.paystack.co/"
@@ -8,7 +8,6 @@ class PaymentProcessor:
     def __init__(self, *args, **kwargs):
         self.secret_key = settings.PAYSTACK_SECRET
         self.base_url = PAYSTACK_BASE_URL
-        self.transfer_secret = settings.PAYSTACK_PAYOUT_SECRET
 
     def send_request(self, method, path, **kwargs):
         """
@@ -34,3 +33,23 @@ class PaymentProcessor:
     def initialize_transaction(self, payload):
         response = self.send_request("POST", "transaction/initialize/", json=payload)
         return response.json()
+
+    def verify_transaction(self, reference):
+        # o2dmps2thb
+        response = self.send_request("GET", "transaction/verify/{}/".format(reference))
+        return response.json()
+        # {
+        #     "status": True,
+        #     "message": "Authorization URL created",
+        #     "data": {
+        #         "authorization_url": "https://checkout.paystack.com/xnnkga0pmityg4b",
+        #         "access_code": "xnnkga0pmityg4b",
+        #         "reference": "o2dmps2thb",
+        #     },
+        # }
+
+    def try_pri(self):
+        print("prinngting")
+
+
+payment_processor = PaymentProcessor()

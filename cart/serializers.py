@@ -65,7 +65,21 @@ class CartSerializer(serializers.ModelSerializer):
         cart = create_cart(owner=owner, **validated_data)
         for product in cart_item:
             CartItem.objects.create(cart=cart, **product)
+        self.inform_customer()
         return cart
+
+    def inform_customer(self, cartID, phone_number, email):
+        payload = {
+            "email": email,
+            "amount": "10000",
+            "currency": "NGN",
+            "channels": ["card", "bank"],
+            "reference": cartID,
+        }
+        payment_link = ""
+        mgs = "hey your order https://mobilewaiter.netlify.app//store/checkout{} was successfully created, please click on the link to pay {}".format(
+            cartID
+        )
 
     def update(self, instance, validated_data):
         instance.contact = validated_data.get("contact", instance.contact)
@@ -78,4 +92,5 @@ class CartSerializer(serializers.ModelSerializer):
         instance.cart_item.all().delete()
         for product in new_items:
             CartItem.objects.create(cart=instance, **product)
+
         return instance

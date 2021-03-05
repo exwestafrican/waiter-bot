@@ -58,8 +58,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path(base_url + "webhooks/message_received/", webhook.message_received),
     path(base_url + "webhooks/send_message/", webhook.send_message),
+    path(base_url + "webhooks/paystack_webhook/", webhook.paystack_webhook),
     path(base_url, include(router.urls)),
     path(base_url + "admin/", include(admin_router.urls)),
     path("api/v1/rest-auth/registration/", include("rest_auth.registration.urls")),
     path("api/v1/rest-auth/", include("rest_auth.urls")),
 ]
+# http://127.0.0.1:8000/api/v1/webhooks/paystack_webhook/

@@ -15,6 +15,7 @@ from messaging.utils import clean_data, resp_from_twillo_whatsapp
 from messaging.selectors import get_name_or_number, valid_command_in_message
 
 from commands.utils import initiate_order_request
+from django.shortcuts import redirect
 
 
 @api_view(["POST"])
@@ -45,5 +46,19 @@ def send_message(request):
         sent = send_whatsapp_message("+2348169084566", "+14155238886", msg)
         return Response(
             {"success": True, "message": "success", "data": sent},
+            status=status.HTTP_200_OK,
+        )
+
+
+@api_view(["POST", "GET"])
+def paystack_webhook(request):
+    if request.method == "GET":
+        print(request.query_params["reference"])
+        # if sucessful
+        return redirect("https://mobilewaiter.netlify.app/")
+    if request.method == "POST":
+        # if sucessful
+        return Response(
+            {"success": True, "message": "success", "data": request.data},
             status=status.HTTP_200_OK,
         )
