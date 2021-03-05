@@ -4,6 +4,8 @@ from products.selectors import product_exists
 from users.selectors import get_user
 from cart.services import create_cart
 
+from payment_gateway.processor import payment_processor
+from messaging 
 
 class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField()
@@ -20,7 +22,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     cart_item = CartItemSerializer(many=True)
     status = serializers.SerializerMethodField()
-    # fee = serializers.SerializerMethodField()
+    items_total = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
@@ -34,7 +36,8 @@ class CartSerializer(serializers.ModelSerializer):
             "delivery_address",
             "status",
             "cart_item",
-            "fee",
+            "fees",
+            "items_total",
             "reference",
         ]
         read_only_fields = ["id", "owner"]
@@ -43,12 +46,9 @@ class CartSerializer(serializers.ModelSerializer):
     def get_status(self, obj):
         return obj.status.name
 
-    # def get_fee(self, obj):
-    #     if obj.from_school_vendor is True:
-    #         return 100
-    #     elif obj.from_school_vendor is False:
-    #         return 1000
-    #     return 0
+    def get_items_total(self, obj):
+        products = obj.cart_item.all()
+        return sum([product.total for product in products])
 
     def validate(self, data):
         cart_item = data.get("cart_item")
@@ -65,21 +65,23 @@ class CartSerializer(serializers.ModelSerializer):
         cart = create_cart(owner=owner, **validated_data)
         for product in cart_item:
             CartItem.objects.create(cart=cart, **product)
-        # self.inform_customer()
+        self.inform_customer(cart)
         return cart
 
-    def inform_customer(self, cartID, phone_number, email):
+    def inform_customer(self, cart):
         payload = {
-            "email": email,
-            "amount": "10000",
+            "email": cart.email,
+            "amount": cart.items_total + cart.fees,
             "currency": "NGN",
             "channels": ["card", "bank"],
-            "reference": cartID,
+            "reference": cart.id,
         }
-        payment_link = ""
-        mgs = "hey your order https://mobilewaiter.netlify.app//store/checkout{} was successfully created, please click on the link to pay {}".format(
-            cartID
-        )
+        trans = payment_processor.initialize_transaction(load)
+        if trans["status"] is True:
+            payment_link = trans["data"]["authorization_url"]
+            mgs = "hey your order https://mobilewaiter.netlify.app//store/checkout{} was successfully created, please click on the link to pay {}".format(
+                cart.id, payment_link
+            )
 
     def update(self, instance, validated_data):
         instance.contact = validated_data.get("contact", instance.contact)
