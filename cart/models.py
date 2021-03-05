@@ -37,7 +37,7 @@ class Cart(TimeStampMixin):
         OrderStatus, on_delete=models.SET_NULL, null=True, blank=True
     )
     reference = models.CharField(max_length=500, null=True, blank=True)
-    
+    fees = models.PositiveIntegerField(default=100)
 
     def __str__(self):
         if self.owner is not None:

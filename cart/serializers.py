@@ -20,7 +20,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     cart_item = CartItemSerializer(many=True)
     status = serializers.SerializerMethodField()
-    fee = serializers.SerializerMethodField()
+    # fee = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
@@ -43,12 +43,12 @@ class CartSerializer(serializers.ModelSerializer):
     def get_status(self, obj):
         return obj.status.name
 
-    def get_fee(self, obj):
-        if obj.from_school_vendor is True:
-            return 100
-        elif obj.from_school_vendor is False:
-            return 1000
-        return 0
+    # def get_fee(self, obj):
+    #     if obj.from_school_vendor is True:
+    #         return 100
+    #     elif obj.from_school_vendor is False:
+    #         return 1000
+    #     return 0
 
     def validate(self, data):
         cart_item = data.get("cart_item")
@@ -65,7 +65,7 @@ class CartSerializer(serializers.ModelSerializer):
         cart = create_cart(owner=owner, **validated_data)
         for product in cart_item:
             CartItem.objects.create(cart=cart, **product)
-        self.inform_customer()
+        # self.inform_customer()
         return cart
 
     def inform_customer(self, cartID, phone_number, email):
