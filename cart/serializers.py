@@ -6,6 +6,7 @@ from cart.services import create_cart
 
 from payment_gateway.processor import payment_processor
 from messaging.twillio_msg import send_text_message
+from utils.helper_func import convert_to_kobo
 
 
 class CartItemSerializer(serializers.ModelSerializer):
@@ -65,20 +66,21 @@ class CartSerializer(serializers.ModelSerializer):
         return cart
 
     def inform_customer(self, cart):
+        amount = convert_to_kobo(cart.items_total + cart.fees)
         payload = {
             "email": cart.email,
-            "amount": cart.items_total + cart.fees,
+            "amount": amount,
             "currency": "NGN",
             "channels": ["card", "bank"],
             "reference": str(cart.id),
         }
         trans = payment_processor.initialize_transaction(payload)
-        print("trans", cart.id, trans)
         if trans["status"] is True:
             payment_link = trans["data"]["authorization_url"]
-            msg = "hey your order https://mobilewaiter.netlify.app/store/checkout/{} was successfully created, please click on the link to pay {}".format(
+            msg = "hey your order is pending, checkout the summary on https://mobilewaiter.netlify.app/store/checkout/{}  pay with this {} so we can start processing your order.".format(
                 cart.id, payment_link
             )
+
             send_text_message(cart.contact, msg)
 
     def update(self, instance, validated_data):

@@ -24,3 +24,7 @@ def subtract(*nums):
     for num in nums:
         total -= float(num)
     return total
+
+
+def convert_to_kobo(amount):
+    return amount * 1000
