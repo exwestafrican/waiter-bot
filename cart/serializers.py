@@ -39,7 +39,7 @@ class CartSerializer(serializers.ModelSerializer):
             "cart_item",
             "fees",
             "items_total",
-            "reference",
+            "payment_link",
         ]
         read_only_fields = ["id", "owner"]
         extra_kwargs = {"contact": {"required": True}}
