@@ -18,9 +18,19 @@ from django.contrib import admin
 from django.urls import path, include
 from messaging import webhook
 from rest_framework import routers
-from users.views import *
-from commands.views import *
 
+# admin
+from users.admin_api.views import *
+from location.admin_api.views import *
+from products.admin_api.views import *
+from cart.admin_api.views import *
+
+# users
+from commands.views import *
+from location.views import *
+from users.views import *
+from cart.views import *
+from products.views import *
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -29,14 +39,29 @@ from rest_framework_simplejwt.views import (
 base_url = "api/v1/"
 
 router = routers.DefaultRouter()
+admin_router = routers.DefaultRouter()
+
 router.register("users", UserModelViewSet, basename="users")
 router.register("commands", CommandModelViewSet, basename="commands")
+router.register("locations", LocationModelViewSet, basename="locations")
+router.register("carts", CartModelViewSet, basename="carts")
+router.register("products", ProductModelViewSet, basename="products")
+router.register("stores", StoreModelViewSet, basename="stores")
+
+admin_router.register("stores", StoreAdminModelViewSet, basename="stores")
+admin_router.register("locations", LocationAdminModelViewSet, basename="locations")
+admin_router.register("users", UserAdminModelViewSet, basename="users")
+admin_router.register("products", ProductAdminModelViewSet, basename="products")
+admin_router.register("order", OrderStatusAdminModelViewSet, basename="order")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(base_url + "webhooks/message_received/", webhook.message_received),
     path(base_url + "webhooks/send_message/", webhook.send_message),
+    path(base_url + "webhooks/paystack_webhook/", webhook.paystack_webhook),
     path(base_url, include(router.urls)),
+    path(base_url + "admin/", include(admin_router.urls)),
     path("api/v1/rest-auth/registration/", include("rest_auth.registration.urls")),
     path("api/v1/rest-auth/", include("rest_auth.urls")),
 ]
+# http://127.0.0.1:8000/api/v1/webhooks/paystack_webhook/

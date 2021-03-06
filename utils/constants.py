@@ -1,0 +1,7 @@
+PENDING = "pending"
+CANCLED = "canceled"
+REJECTED = "rejected"
+COMPLETED = "completed"
+PROCESSING = "processing"
+INTRANNSIT = "instansit"
+CONFIRMED = "confirmed"

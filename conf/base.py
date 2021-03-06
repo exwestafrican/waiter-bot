@@ -52,6 +52,9 @@ DJANGO_APPS = [
 ]
 DJANGO_EXTENSIONS = ["django_extensions"]
 
+DJANGO_CROS = [
+    "corsheaders",
+]
 REST_FRAME_WORK = [
     "rest_framework",
     "rest_auth",
@@ -61,9 +64,9 @@ REST_FRAME_WORK = [
 
 ALL_AUTH = ["allauth", "allauth.account", "allauth.socialaccount"]
 
-THIRD_PARTY_APPS = DJANGO_EXTENSIONS + ALL_AUTH + REST_FRAME_WORK
+THIRD_PARTY_APPS = DJANGO_EXTENSIONS + ALL_AUTH + REST_FRAME_WORK + DJANGO_CROS
 
-LOCAL_APPS = ["users", "commands"]
+LOCAL_APPS = ["users", "commands", "products", "location", "cart"]
 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -71,6 +74,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 SITE_ID = 1
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -158,6 +162,7 @@ WAITER_INTERFACE_URL = env("WAITER_INTERFACE_URL")
 TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")
 ACCOUNT_SID = env("ACCOUNT_SID")
 ACCOUNT_TOKEN = env("ACCOUNT_TOKEN")
+MW_PHONE_NUMBER = env("MW_PHONE_NUMBER")
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -189,5 +194,12 @@ JWT_AUTH = {
     "JWT_ALLOW_REFRESH": True,
 }
 
+SHELL_PLUS = "ipython"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
+PAYSTACK_SECRET = env("PAYSTACK_SECRET")
 
 django_heroku.settings(locals())
