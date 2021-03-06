@@ -2,9 +2,18 @@ from cart.models import *
 from cart.selectors import get_order_status
 
 
-def create_cart(owner, contact, email, bought_by, delivery_address, status="pending"):
+def create_cart(
+    owner,
+    name: str,
+    contact: str,
+    email: str,
+    bought_by,
+    delivery_address: str,
+    status="pending",
+):
     return Cart.objects.create(
         owner=owner,
+        name=name,
         contact=contact,
         email=email,
         bought_by=bought_by,

@@ -5,7 +5,8 @@ from users.selectors import get_user
 from cart.services import create_cart
 
 from payment_gateway.processor import payment_processor
-from messaging 
+from messaging.twillio_msg import send_text_message
+
 
 class CartItemSerializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField()
@@ -22,7 +23,6 @@ class CartItemSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     cart_item = CartItemSerializer(many=True)
     status = serializers.SerializerMethodField()
-    items_total = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
@@ -45,10 +45,6 @@ class CartSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         return obj.status.name
-
-    def get_items_total(self, obj):
-        products = obj.cart_item.all()
-        return sum([product.total for product in products])
 
     def validate(self, data):
         cart_item = data.get("cart_item")
@@ -74,14 +70,16 @@ class CartSerializer(serializers.ModelSerializer):
             "amount": cart.items_total + cart.fees,
             "currency": "NGN",
             "channels": ["card", "bank"],
-            "reference": cart.id,
+            "reference": str(cart.id),
         }
-        trans = payment_processor.initialize_transaction(load)
+        trans = payment_processor.initialize_transaction(payload)
+        print("trans", cart.id, trans)
         if trans["status"] is True:
             payment_link = trans["data"]["authorization_url"]
-            mgs = "hey your order https://mobilewaiter.netlify.app//store/checkout{} was successfully created, please click on the link to pay {}".format(
+            msg = "hey your order https://mobilewaiter.netlify.app/store/checkout/{} was successfully created, please click on the link to pay {}".format(
                 cart.id, payment_link
             )
+            send_text_message(cart.contact, msg)
 
     def update(self, instance, validated_data):
         instance.contact = validated_data.get("contact", instance.contact)

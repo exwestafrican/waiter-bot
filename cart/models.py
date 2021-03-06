@@ -53,6 +53,11 @@ class Cart(TimeStampMixin):
         except AttributeError:
             return None
 
+    @property
+    def items_total(self):
+        products = self.cart_item.all()
+        return sum([product.total for product in products])
+
 
 class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
