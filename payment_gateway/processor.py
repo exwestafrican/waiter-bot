@@ -38,15 +38,7 @@ class PaymentProcessor:
         # o2dmps2thb
         response = self.send_request("GET", "transaction/verify/{}/".format(reference))
         return response.json()
-        # {
-        #     "status": True,
-        #     "message": "Authorization URL created",
-        #     "data": {
-        #         "authorization_url": "https://checkout.paystack.com/xnnkga0pmityg4b",
-        #         "access_code": "xnnkga0pmityg4b",
-        #         "reference": "o2dmps2thb",
-        #     },
-        # }
+      
 
     def try_pri(self):
         print("prinngting")

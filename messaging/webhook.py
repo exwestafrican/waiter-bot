@@ -16,6 +16,9 @@ from messaging.selectors import get_name_or_number, valid_command_in_message
 
 from commands.utils import initiate_order_request
 from django.shortcuts import redirect
+from cart.selectors import change_cart_status, get_cart
+
+from messaging.twillio_msg import send_text_message
 
 
 @api_view(["POST"])
@@ -53,11 +56,24 @@ def send_message(request):
 @api_view(["POST", "GET"])
 def paystack_webhook(request):
     if request.method == "GET":
-        print(request.query_params["reference"])
-        # if sucessful
+        ref = request.query_params["reference"]
+        cart = get_cart(id=ref)
+        change_cart_status(cart, "paid")
+        send_text_message(
+            cart.contact,
+            "your order with reference {} has been confirmed please reach out to @mobilewaiterng on instagram for any complaints or contant rider directly on +2348135080953".format(
+                ref
+            ),
+        )
+        send_text_message(
+            "+2348135080953",
+            "The following order has been paid for, check https://mobilewaiter.netlify.app/store/checkout/{} for all details".format(
+                ref
+            ),
+        )
         return redirect("https://mobilewaiter.netlify.app/")
+
     if request.method == "POST":
-        # if sucessful
         return Response(
             {"success": True, "message": "success", "data": request.data},
             status=status.HTTP_200_OK,

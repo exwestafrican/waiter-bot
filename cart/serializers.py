@@ -77,11 +77,14 @@ class CartSerializer(serializers.ModelSerializer):
         trans = payment_processor.initialize_transaction(payload)
         if trans["status"] is True:
             payment_link = trans["data"]["authorization_url"]
-            msg = "hey your order is pending, checkout the summary on https://mobilewaiter.netlify.app/store/checkout/{}  pay with this {} so we can start processing your order.".format(
-                cart.id, payment_link
+            msg = "hey, your have a pending order with Mobile waiter please view the link provided to confirm details and pay  https://mobilewaiter.netlify.app/store/checkout/{}  ".format(
+                cart.id
             )
-
+            cart.payment_link = payment_link
+            cart.save()
             send_text_message(cart.contact, msg)
+        else:
+            raise serializers.ValidationError(trans["message"])
 
     def update(self, instance, validated_data):
         instance.contact = validated_data.get("contact", instance.contact)

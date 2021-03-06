@@ -27,4 +27,4 @@ def subtract(*nums):
 
 
 def convert_to_kobo(amount):
-    return amount * 1000
+    return amount * 100

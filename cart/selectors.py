@@ -1,4 +1,4 @@
-from cart.models import OrderStatus
+from cart.models import OrderStatus, Cart
 
 
 def get_order_status(**args):
@@ -19,3 +19,13 @@ def validate_quantity_ordered(product, amount_paid):
         return True
     else:
         return False
+
+
+def get_cart(**args):
+    return Cart.objects.get(**args)
+
+
+def change_cart_status(cart, status):
+    cart.status = get_order_status(name=status)
+    cart.save()
+    return True
